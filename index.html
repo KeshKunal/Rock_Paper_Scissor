@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rock paper scissor</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main class="app">
+        <h1>rock paper scissor</h1>
+
+        <section class="arena" aria-label="Game Arena">
+            <article class="hand-card" id="computer-card">
+                <h2>Computer (Left Hand)</h2>
+                <img id="computer-hand" src="public/stoneComputer.png" alt="Computer hand showing rock">
+                <p class="choice-text">Choice: <span id="computer-choice">rock</span></p>
+            </article>
+
+            <article class="hand-card" id="player-card">
+                <h2>Player (Right Hand)</h2>
+                <img id="player-hand" src="public/stonePlayer.png" alt="Player hand showing rock">
+                <p class="choice-text">Choice: <span id="player-choice">rock</span></p>
+            </article>
+        </section>
+
+        <section class="status" aria-live="polite">
+            <p id="feedback-text">Pick a move to start the game.</p>
+            <p class="score-line">
+                Player: <span id="player-score">0</span>
+                <span class="divider">|</span>
+                Computer: <span id="computer-score">0</span>
+                <span class="divider">|</span>
+                Ties: <span id="tie-score">0</span>
+            </p>
+        </section>
+
+        <section id="controls" aria-label="Move Controls">
+            <button type="button" data-choice="rock">Rock</button>
+            <button type="button" data-choice="paper">Paper</button>
+            <button type="button" data-choice="scissors">Scissors</button>
+            <button type="button" id="reset">Reset</button>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
