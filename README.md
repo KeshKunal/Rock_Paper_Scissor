@@ -25,4 +25,4 @@ A simple Rock Paper Scissor game built with HTML, CSS, and JavaScript.
 
 ## Preview
 
-![Game Preview](image.png)
+![Game Preview](public\image.png)
