@@ -1,5 +1,7 @@
 const computerHand = document.getElementById('computer-hand');
 const playerHand = document.getElementById('player-hand');
+const computerVisual = document.getElementById('computer-visual');
+const playerVisual = document.getElementById('player-visual');
 const computerChoiceText = document.getElementById('computer-choice');
 const playerChoiceText = document.getElementById('player-choice');
 const feedbackText = document.getElementById('feedback-text');
@@ -57,7 +59,8 @@ function playRound(playerChoice) {
     setHandsShaking(true);
     feedbackText.textContent = 'Hands are shaking...';
     computerChoiceText.textContent = '...';
-    playerChoiceText.textContent = '...';
+    playerChoiceText.textContent = playerChoice;
+    setPlayerPreview(playerChoice);
 
     const computerChoice = choices[Math.floor(Math.random() * 3)];
 
@@ -93,8 +96,17 @@ function updateHands(playerChoice, computerChoice) {
     computerHand.alt = `Computer hand showing ${computerChoice}`;
     playerHand.alt = `Player hand showing ${playerChoice}`;
 
+    computerVisual.dataset.choice = computerChoice;
+    playerVisual.dataset.choice = playerChoice;
+
     computerChoiceText.textContent = computerChoice;
     playerChoiceText.textContent = playerChoice;
+}
+
+function setPlayerPreview(playerChoice) {
+    playerHand.src = handImages.player[playerChoice];
+    playerHand.alt = `Player hand showing ${playerChoice}`;
+    playerVisual.dataset.choice = playerChoice;
 }
 
 function updateScore() {
@@ -104,8 +116,8 @@ function updateScore() {
 }
 
 function setHandsShaking(isShaking) {
-    computerHand.classList.toggle('shaking-left', isShaking);
-    playerHand.classList.toggle('shaking-right', isShaking);
+    computerVisual.classList.toggle('shaking-left', isShaking);
+    playerVisual.classList.toggle('shaking-right', isShaking);
 }
 
 function setControlsDisabled(isDisabled) {

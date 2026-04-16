@@ -13,13 +13,17 @@
         <section class="arena" aria-label="Game Arena">
             <article class="hand-card" id="computer-card">
                 <h2>Computer (Left Hand)</h2>
-                <img id="computer-hand" src="public/stoneComputer.png" alt="Computer hand showing rock">
+                <div class="hand-visual" id="computer-visual" data-choice="rock">
+                    <img class="hand-image" id="computer-hand" src="public/stoneComputer.png" alt="Computer hand showing rock">
+                </div>
                 <p class="choice-text">Choice: <span id="computer-choice">rock</span></p>
             </article>
 
             <article class="hand-card" id="player-card">
                 <h2>Player (Right Hand)</h2>
-                <img id="player-hand" src="public/stonePlayer.png" alt="Player hand showing rock">
+                <div class="hand-visual" id="player-visual" data-choice="rock">
+                    <img class="hand-image" id="player-hand" src="public/stonePlayer.png" alt="Player hand showing rock">
+                </div>
                 <p class="choice-text">Choice: <span id="player-choice">rock</span></p>
             </article>
         </section>

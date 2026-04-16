@@ -83,6 +83,10 @@ h1 {
 
 .hand-card {
     position: relative;
+    display: grid;
+    grid-template-rows: auto 230px auto;
+    row-gap: 10px;
+    align-items: start;
     background-color: var(--panel);
     border: 1px solid var(--panel-border);
     border-radius: 16px;
@@ -97,22 +101,42 @@ h1 {
 }
 
 .hand-card h2 {
-    margin: 0 0 8px;
+    margin: 0;
     font-size: 1.05rem;
     font-weight: 600;
     color: var(--muted);
 }
 
-.hand-card img {
+.hand-visual {
+    --hand-scale: 1;
     width: 100%;
-    max-width: 260px;
-    height: auto;
+    max-width: 300px;
+    height: 230px;
+    margin: 0 auto;
+    padding-top: 6px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.hand-image {
+    width: 100%;
+    max-width: 280px;
+    height: 100%;
+    max-height: 205px;
+    object-fit: contain;
+    object-position: center bottom;
     filter: drop-shadow(0 10px 12px rgba(33, 64, 57, 0.16));
-    transition: transform 0.2s ease;
+    transform: scale(var(--hand-scale));
+    transform-origin: center bottom;
+    transition: transform 0.2s ease, filter 0.2s ease;
 }
 
 .choice-text {
-    margin: 8px 0 0;
+    margin: 0;
+    padding-top: 4px;
+    min-height: 1.4em;
     font-weight: 600;
     color: #365f54;
 }
@@ -187,6 +211,30 @@ h1 {
 
 .shaking-right {
     animation: shakeRight 0.45s ease-in-out infinite;
+}
+
+#computer-visual[data-choice='rock'] {
+    --hand-scale: 0.92;
+}
+
+#computer-visual[data-choice='paper'] {
+    --hand-scale: 1;
+}
+
+#computer-visual[data-choice='scissors'] {
+    --hand-scale: 0.95;
+}
+
+#player-visual[data-choice='rock'] {
+    --hand-scale: 0.93;
+}
+
+#player-visual[data-choice='paper'] {
+    --hand-scale: 1.05;
+}
+
+#player-visual[data-choice='scissors'] {
+    --hand-scale: 0.94;
 }
 
 @keyframes shakeLeft {
