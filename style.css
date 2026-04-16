@@ -24,7 +24,8 @@ body {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     color: var(--text);
     background: linear-gradient(165deg, #f9fcfb 0%, var(--bg) 60%, #eaf2ef 100%);
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
     position: relative;
 }
 
@@ -109,6 +110,7 @@ h1 {
 
 .hand-visual {
     --hand-scale: 1;
+    --hand-offset-y: 0px;
     width: 100%;
     max-width: 300px;
     height: 230px;
@@ -128,7 +130,7 @@ h1 {
     object-fit: contain;
     object-position: center bottom;
     filter: drop-shadow(0 10px 12px rgba(33, 64, 57, 0.16));
-    transform: scale(var(--hand-scale));
+    transform: translateY(var(--hand-offset-y)) scale(var(--hand-scale));
     transform-origin: center bottom;
     transition: transform 0.2s ease, filter 0.2s ease;
 }
@@ -177,7 +179,7 @@ h1 {
 
 #controls button {
     border: 1px solid #9eb8ae;
-    border-radius: 999px;
+    border-radius: 0;
     background: linear-gradient(180deg, #dce9e4 0%, var(--button) 100%);
     color: var(--text);
     font-size: 1rem;
@@ -199,10 +201,15 @@ h1 {
 }
 
 #controls.disabled button,
-#controls button:disabled {
+#controls button[data-choice]:disabled {
     cursor: not-allowed;
     opacity: 0.6;
     box-shadow: none;
+}
+
+#controls button:focus-visible {
+    outline: 2px solid #5c8f80;
+    outline-offset: 2px;
 }
 
 .shaking-left {
@@ -222,7 +229,8 @@ h1 {
 }
 
 #computer-visual[data-choice='scissors'] {
-    --hand-scale: 0.95;
+    --hand-scale: 0.72;
+    --hand-offset-y: -12px;
 }
 
 #player-visual[data-choice='rock'] {
@@ -234,7 +242,8 @@ h1 {
 }
 
 #player-visual[data-choice='scissors'] {
-    --hand-scale: 0.94;
+    --hand-scale: 0.72;
+    --hand-offset-y: -12px;
 }
 
 @keyframes shakeLeft {
@@ -290,5 +299,12 @@ h1 {
 
     h1 {
         font-size: 1.7rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation: none !important;
+        transition: none !important;
     }
 }

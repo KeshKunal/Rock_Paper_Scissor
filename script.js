@@ -10,6 +10,7 @@ const playerScoreSpan = document.getElementById('player-score');
 const computerScoreSpan = document.getElementById('computer-score');
 const tieScoreSpan = document.getElementById('tie-score');
 const controlButtons = Array.from(controls.querySelectorAll('button'));
+const moveButtons = controlButtons.filter((button) => button.dataset.choice);
 
 const choices = ['rock', 'paper', 'scissors'];
 const RESULT_DELAY_MS = 2000;
@@ -30,18 +31,20 @@ let playerScore = 0;
 let computerScore = 0;
 let tieScore = 0;
 let isRoundLocked = false;
+let pendingRoundTimeoutId = null;
 
 controls.addEventListener('click', (event) => {
-    if (event.target.tagName !== 'BUTTON') {
+    const clickedButton = event.target.closest('button');
+    if (!clickedButton || !controls.contains(clickedButton)) {
         return;
     }
 
-    if (event.target.id === 'reset') {
+    if (clickedButton.id === 'reset') {
         resetGame();
         return;
     }
 
-    const playerChoice = event.target.dataset.choice;
+    const playerChoice = clickedButton.dataset.choice;
     if (!choices.includes(playerChoice)) {
         return;
     }
@@ -55,7 +58,7 @@ function playRound(playerChoice) {
     }
 
     isRoundLocked = true;
-    setControlsDisabled(true);
+    setMoveButtonsDisabled(true);
     setHandsShaking(true);
     feedbackText.textContent = 'Hands are shaking...';
     computerChoiceText.textContent = '...';
@@ -64,7 +67,7 @@ function playRound(playerChoice) {
 
     const computerChoice = choices[Math.floor(Math.random() * 3)];
 
-    window.setTimeout(() => {
+    pendingRoundTimeoutId = window.setTimeout(() => {
         updateHands(playerChoice, computerChoice);
         setHandsShaking(false);
 
@@ -84,8 +87,9 @@ function playRound(playerChoice) {
         }
 
         updateScore();
-        setControlsDisabled(false);
+        setMoveButtonsDisabled(false);
         isRoundLocked = false;
+        pendingRoundTimeoutId = null;
     }, RESULT_DELAY_MS);
 }
 
@@ -120,21 +124,26 @@ function setHandsShaking(isShaking) {
     playerVisual.classList.toggle('shaking-right', isShaking);
 }
 
-function setControlsDisabled(isDisabled) {
-    controlButtons.forEach((button) => {
+function setMoveButtonsDisabled(isDisabled) {
+    moveButtons.forEach((button) => {
         button.disabled = isDisabled;
     });
     controls.classList.toggle('disabled', isDisabled);
 }
 
 function resetGame() {
+    if (pendingRoundTimeoutId !== null) {
+        window.clearTimeout(pendingRoundTimeoutId);
+        pendingRoundTimeoutId = null;
+    }
+
     isRoundLocked = false;
     playerScore = 0;
     computerScore = 0;
     tieScore = 0;
 
     setHandsShaking(false);
-    setControlsDisabled(false);
+    setMoveButtonsDisabled(false);
     updateHands('rock', 'rock');
     updateScore();
     feedbackText.textContent = 'Game reset. Pick your next move.';

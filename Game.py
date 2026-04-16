@@ -87,7 +87,10 @@ class HealthBar:
 
     def draw(self, surface, current_hp):
         """Draws the health bar based on current HP."""
-        ratio = max(0, current_hp / self.max_hp)
+        if self.max_hp <= 0:
+            ratio = 0
+        else:
+            ratio = max(0, min(1, current_hp / self.max_hp))
         
         # Background (max health)
         pygame.draw.rect(surface, RED, (self.x, self.y, self.width, self.height))
@@ -189,6 +192,9 @@ class GameStateData:
 
     def setup_level(self):
         """Configures the game state for the current level."""
+        if self.current_level_index < 0 or self.current_level_index >= len(LEVELS):
+            self.current_level_index = 0
+
         level_data = LEVELS[self.current_level_index]
         ai_class_name = level_data['ai_class']
         
@@ -320,12 +326,12 @@ class PlayingState(BaseState):
         # Update game state based on outcome
         if outcome == 'WIN':
             damage = 2 if self.game_data.righteous_fury_active else 1
-            self.game_data.monster.current_hp -= damage
+            self.game_data.monster.current_hp = max(0, self.game_data.monster.current_hp - damage)
             self.game_data.feedback_message = f"Your {player_move} beats {monster_move}! You deal {damage} damage!"
             if self.game_data.righteous_fury_active:
                 self.game_data.righteous_fury_active = False # Consume buff
         elif outcome == 'LOSE':
-            self.game_data.water_level += 1
+            self.game_data.water_level = min(self.game_data.jar_capacity, self.game_data.water_level + 1)
             self.game_data.feedback_message = f"Their {monster_move} beats your {player_move}! The water rises!"
         elif outcome == 'DRAW':
             self.game_data.power_meter_charge = min(3, self.game_data.power_meter_charge + 1)
